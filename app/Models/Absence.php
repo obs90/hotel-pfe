@@ -9,6 +9,8 @@ class Absence extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_absence';
+
     protected $fillable = [
         'date',
         'justifie',

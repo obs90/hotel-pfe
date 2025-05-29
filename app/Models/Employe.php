@@ -9,6 +9,8 @@ class Employe extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_employe';
+
     protected $fillable = [
         'salaire',
         'date_naissance',
@@ -22,7 +24,7 @@ class Employe extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(CustomUser::class, 'id_user');
     }
 
     public function service()

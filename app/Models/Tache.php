@@ -9,6 +9,8 @@ class Tache extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_tache';
+
     protected $fillable = [
         'description',
     ];

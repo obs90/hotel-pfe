@@ -21,6 +21,17 @@ class AuthController extends Controller
             'telephone' => 'required|string|max:20',
             'password' => 'required|string|min:6',
             'typeUser' => 'required|in:client,employe',
+            
+            // Common to both or needed conditionally
+            'CIN' => 'required|string|unique:clients,CIN|unique:employes,CIN',
+
+            // Required only for employe
+            'salaire' => 'required_if:typeUser,employe|numeric',
+            'date_naissance' => 'required_if:typeUser,employe|date',
+            'adresse' => 'required_if:typeUser,employe|string',
+            'date_embauche' => 'required_if:typeUser,employe|date',
+            'fonction' => 'required_if:typeUser,employe|in:admin,RH,chef,employe',
+            'id_service' => 'nullable|exists:services,id_service',
         ]);
 
         if($validator->fails()){
@@ -37,10 +48,19 @@ class AuthController extends Controller
         ]);
 
         if ($user->typeUser == 'client') {
-            $user->client()->create(['CIN' => "", 'id_user' => $user->id_user]);
-        } // elseif ($user->typeUser == 'employe') {
-        //     $user->employe()->create();
-        // }
+            $user->client()->create(['CIN' => $request->get('CIN'), 'id_user' => $user->id_user]);
+        } elseif ($user->typeUser == 'employe') {
+            $user->employe()->create([
+                'salaire' => $request->salaire,
+                'date_naissance' => $request->date_naissance,
+                'adresse' => $request->adresse,
+                'CIN' => $request->CIN,
+                'date_embauche' => $request->date_embauche,
+                'fonction' => $request->fonction,
+                'id_user' => $user->id_user,
+                'id_service' => $request->id_service,
+            ]);
+        }
 
         $token = JWTAuth::fromUser($user);
 

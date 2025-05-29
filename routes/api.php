@@ -14,6 +14,14 @@ use App\Http\Controllers\API\TarifController;
 use App\Http\Controllers\API\ChambreTarifController;
 use App\Http\Controllers\API\ImageController;
 
+use App\Http\Controllers\API\EmployeController;
+use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\AbsenceController;
+use App\Http\Controllers\API\PaiementController;
+use App\Http\Controllers\API\CongeController;
+use App\Http\Controllers\API\TacheController;
+use App\Http\Controllers\API\TacheEmployeController;
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -110,4 +118,68 @@ Route::prefix('images')->group(function () {
     Route::post('/', [ImageController::class, 'store']);
     Route::put('/{id}', [ImageController::class, 'update']);
     Route::delete('/{id}', [ImageController::class, 'destroy']);
+});
+
+// Employes
+Route::prefix('employes')->group(function () {
+    Route::get('/', [EmployeController::class, 'index']);
+    Route::get('/{id}', [EmployeController::class, 'show']);
+    Route::post('/', [EmployeController::class, 'store']);
+    Route::put('/{id}', [EmployeController::class, 'update']);
+    Route::delete('/{id}', [EmployeController::class, 'destroy']);
+});
+
+// Services
+Route::prefix('services')->group(function () {
+    Route::get('/', [ServiceController::class, 'index']);
+    Route::get('/{id}', [ServiceController::class, 'show']);
+    Route::post('/', [ServiceController::class, 'store']);
+    Route::put('/{id}', [ServiceController::class, 'update']);
+    Route::delete('/{id}', [ServiceController::class, 'destroy']);
+});
+
+// Absences
+Route::prefix('absences')->group(function () {
+    Route::get('/', [AbsenceController::class, 'index']);
+    Route::get('/{id}', [AbsenceController::class, 'show']);
+    Route::post('/', [AbsenceController::class, 'store']);
+    Route::put('/{id}', [AbsenceController::class, 'update']);
+    Route::delete('/{id}', [AbsenceController::class, 'destroy']);
+});
+
+// Paiements
+Route::prefix('paiements')->group(function () {
+    Route::get('/', [PaiementController::class, 'index']);          
+    Route::get('/{id}', [PaiementController::class, 'show']);       
+    Route::post('/', [PaiementController::class, 'store']);         
+    Route::put('/{id}', [PaiementController::class, 'update']);     
+    Route::delete('/{id}', [PaiementController::class, 'destroy']); 
+});
+
+// Conge
+
+Route::prefix('conges')->group(function () {
+    Route::get('/', [CongeController::class, 'index']);
+    Route::post('/', [CongeController::class, 'store']);
+    Route::get('{id}', [CongeController::class, 'show']);
+    Route::put('{id}', [CongeController::class, 'update']);
+    Route::delete('{id}', [CongeController::class, 'destroy']);
+});
+
+// Taches
+Route::prefix('taches')->group(function () {
+    Route::get('/', [TacheController::class, 'index']);
+    Route::get('/{id}', [TacheController::class, 'show']);
+    Route::post('/', [TacheController::class, 'store']);
+    Route::put('/{id}', [TacheController::class, 'update']);
+    Route::delete('/{id}', [TacheController::class, 'destroy']);
+});
+
+// Tache Employe
+
+Route::prefix('taches')->group(function () {
+    Route::post('/assign', [TacheEmployeController::class, 'assign']);
+    Route::put('/assign/{id_tache}/{id_employe}', [TacheEmployeController::class, 'update']);
+    Route::delete('/assign/{id_tache}/{id_employe}', [TacheEmployeController::class, 'unassign']);
+    Route::get('/{id_tache}/employees', [TacheEmployeController::class, 'getAssignedEmployees']);
 });

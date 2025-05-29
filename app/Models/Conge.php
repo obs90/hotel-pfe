@@ -9,6 +9,8 @@ class Conge extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_conge';
+
     protected $fillable = [
         'date_debut',
         'date_fin',

@@ -9,6 +9,10 @@ class TacheEmploye extends Model
 {
     use HasFactory;
 
+    protected $table = 'tache_employe';
+    
+    protected $primaryKey = ['id_tache', 'id_employe'];
+
     protected $fillable = [
         'id_tache',
         'id_employe',

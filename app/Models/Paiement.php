@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Paiement extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'id_salaire';
 
     protected $fillable = [
         'mois',
@@ -15,6 +17,7 @@ class Paiement extends Model
         'date_paiement',
         'primes',
         'statut',
+        'salaire_net',
         'id_employe',
     ];
 
