@@ -32,7 +32,7 @@ class ReservationController extends Controller
             $validated = $request->validate([
                 'date_depart' => 'required|date',
                 'date_fin' => 'required|date|after_or_equal:date_depart',
-                'statut' => 'required|in:confirmee,annulee,en_attente',
+                'statut' => 'required|in:confirmee,annulee,en attente',
                 'mode_paiement' => 'required|in:carte_bancaire,especes,virement',
                 'id_client' => 'required|exists:clients,id_client',
                 'id_chambre_tarif' => 'required|exists:chambre_tarif,id_chambre_tarif'
@@ -65,9 +65,9 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
 
         $validated = $request->validate([
-            'date_depart' => 'required|date',
+            'date_depart' => 'sometimes|date',
             'date_fin' => 'date|after_or_equal:date_depart',
-            'statut' => 'in:confirmee,annulee,en_attente',
+            'statut' => 'in:confirmee,annulee,en attente',
             'mode_paiement' => 'in:carte_bancaire,especes,virement',
             'id_client' => 'exists:clients,id_client',
             'id_chambre_tarif' => 'exists:chambre_tarif,id_chambre_tarif',

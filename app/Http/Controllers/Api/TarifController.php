@@ -40,7 +40,7 @@ class TarifController extends Controller
         $tarif = Tarif::findOrFail($id);
 
         $validated = $request->validate([
-            'type' => 'required|in:standard,flex,premium',
+            'type' => 'sometimes|in:standard,flex,premium',
             'description' => 'string',
         ]);
 

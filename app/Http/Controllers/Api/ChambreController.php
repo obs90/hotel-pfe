@@ -31,7 +31,6 @@ class ChambreController extends Controller
             'base_price' => 'nullable|numeric|min:0',
             'capacite' => 'required|integer|min:1',
             'disponibilite' => 'required|boolean',
-            'id_Tarif' => 'required|exists:tarifs,id_Tarif',
         ]);
 
         $chambre = Chambre::create($validated);
@@ -49,7 +48,6 @@ class ChambreController extends Controller
             'base_price' => 'nullable|numeric|min:0',
             'capacite' => 'integer|min:1',
             'disponibilite' => 'boolean',
-            'id_Tarif' => 'exists:tarifs,id_Tarif',
         ]);
 
         $chambre->update($validated);

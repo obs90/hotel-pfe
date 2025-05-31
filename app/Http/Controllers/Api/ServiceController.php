@@ -69,7 +69,7 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
 
         $validated = $request->validate([
-            'nom' => 'required|string|max:255',
+            'nom' => 'sometimes|string|max:255',
             'id_chef' => 'nullable|exists:employes,id_employe',
         ]);
 
@@ -86,7 +86,7 @@ class ServiceController extends Controller
 
         // Step 2: Update the service
         $service->update([
-            'nom' => $validated['nom'],
+            'nom' => $validated['nom'] ?? $service->nom,
             'id_chef' => $newChefId,
         ]);
 
@@ -111,7 +111,13 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
+
+        // Set id_service to null for all employes linked to this service
+        Employe::where('id_service', $service->id_service)->update(['id_service' => null]);
+
+        // Then delete the service
         $service->delete();
-        return response()->json(['message' => 'Service deleted']);
+
+        return response()->json(['message' => 'Service deleted and employe relations cleared']);
     }
 }

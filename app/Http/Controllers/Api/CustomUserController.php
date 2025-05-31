@@ -83,10 +83,19 @@ class CustomUserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
+        // Delete related client or employe
+        if ($user->typeUser === 'client') {
+            $user->client()->delete();
+        } elseif ($user->typeUser === 'employe') {
+            $user->employe()->delete();
+        }
+
+        // Delete user
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully']);
+        return response()->json(['message' => 'User and related data deleted successfully']);
     }
+
 
     public function getUsersByType($type)
 {
