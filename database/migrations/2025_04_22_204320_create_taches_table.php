@@ -9,14 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::create('taches', function (Blueprint $table) {
-        $table->id('id_tache');
-        $table->text('description');
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        Schema::create('taches', function (Blueprint $table) {
+            $table->id('id_tache');
+            $table->unsignedBigInteger('id_employe');
+            $table->text('description');
+            $table->date('date_assignment');
+            $table->enum('status', ['Not Started', 'In Progress', 'Completed']);
+            $table->timestamps();
+
+            $table->foreign('id_employe')->references('id_employe')->on('employes')->onDelete('cascade');
+        });
+    }
 
     /**
      * Reverse the migrations.

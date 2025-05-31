@@ -13,12 +13,14 @@ class Tache extends Model
 
     protected $fillable = [
         'description',
+        'id_employe',
+        'date_assignment',
+        'status',
     ];
 
-    public function employes()
+    public function employe()
     {
-        return $this->belongsToMany(Employe::class, 'tache_employe')
-                    ->withPivot('date_assignment', 'status');
+        return $this->belongsTo(Employe::class, 'id_employe');
     }
 }
 

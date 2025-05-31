@@ -20,7 +20,6 @@ use App\Http\Controllers\API\AbsenceController;
 use App\Http\Controllers\API\PaiementController;
 use App\Http\Controllers\API\CongeController;
 use App\Http\Controllers\API\TacheController;
-use App\Http\Controllers\API\TacheEmployeController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -173,13 +172,4 @@ Route::prefix('taches')->group(function () {
     Route::post('/', [TacheController::class, 'store']);
     Route::put('/{id}', [TacheController::class, 'update']);
     Route::delete('/{id}', [TacheController::class, 'destroy']);
-});
-
-// Tache Employe
-
-Route::prefix('taches')->group(function () {
-    Route::post('/assign', [TacheEmployeController::class, 'assign']);
-    Route::put('/assign/{id_tache}/{id_employe}', [TacheEmployeController::class, 'update']);
-    Route::delete('/assign/{id_tache}/{id_employe}', [TacheEmployeController::class, 'unassign']);
-    Route::get('/{id_tache}/employees', [TacheEmployeController::class, 'getAssignedEmployees']);
 });

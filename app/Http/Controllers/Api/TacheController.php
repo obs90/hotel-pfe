@@ -10,13 +10,16 @@ class TacheController extends Controller
 {
     public function index()
     {
-        return response()->json(Tache::all());
+        return response()->json(Tache::with('employe')->get());
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'description' => 'required|string',
+            'id_employe' => 'required|exists:employes,id_employe',
+            'date_assignment' => 'required|date',
+            'status' => 'required|in:Not Started,In Progress,Completed',
         ]);
 
         $tache = Tache::create($validated);
@@ -29,15 +32,17 @@ class TacheController extends Controller
 
     public function show($id)
     {
-        $tache = Tache::findOrFail($id);
-
+        $tache = Tache::with('employe')->findOrFail($id);
         return response()->json($tache);
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'description' => 'required|string',
+            'description' => 'sometimes|string',
+            'id_employe' => 'sometimes|exists:employes,id_employe',
+            'date_assignment' => 'sometimes|date',
+            'status' => 'sometimes|in:Not Started,In Progress,Completed',
         ]);
 
         $tache = Tache::findOrFail($id);

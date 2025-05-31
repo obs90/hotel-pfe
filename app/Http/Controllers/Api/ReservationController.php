@@ -33,7 +33,7 @@ class ReservationController extends Controller
                 'date_depart' => 'required|date',
                 'date_fin' => 'required|date|after_or_equal:date_depart',
                 'statut' => 'required|in:confirmee,annulee,en attente',
-                'mode_paiement' => 'required|in:carte_bancaire,especes,virement',
+                'mode_paiement' => 'required|in:especes',
                 'id_client' => 'required|exists:clients,id_client',
                 'id_chambre_tarif' => 'required|exists:chambre_tarif,id_chambre_tarif'
             ]);
@@ -68,7 +68,7 @@ class ReservationController extends Controller
             'date_depart' => 'sometimes|date',
             'date_fin' => 'date|after_or_equal:date_depart',
             'statut' => 'in:confirmee,annulee,en attente',
-            'mode_paiement' => 'in:carte_bancaire,especes,virement',
+            'mode_paiement' => 'in:especes',
             'id_client' => 'exists:clients,id_client',
             'id_chambre_tarif' => 'exists:chambre_tarif,id_chambre_tarif',
         ]);
@@ -85,6 +85,14 @@ class ReservationController extends Controller
         $validated['montant_total'] = $days * $chambreTarif->prix;
 
         $reservation->update($validated);
+
+        if (($validated['statut'] ?? $reservation->statut) === 'confirmee') {
+            $chambre = $reservation->chambreTarif->chambre;
+            if ($chambre) {
+                $chambre->disponibilite = false;
+                $chambre->save();
+            }
+        }
 
         return response()->json($reservation);
 
