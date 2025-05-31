@@ -34,6 +34,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->get('/user', [AuthController::class, 'getUser']);
 Route::post('logout', [AuthController::class, 'logout']);
 
+Route::middleware('auth:api')->group(function () {
 // users
 Route::prefix('users')->group(function () {
     Route::get('/', [CustomUserController::class, 'index']);
@@ -172,4 +173,6 @@ Route::prefix('taches')->group(function () {
     Route::post('/', [TacheController::class, 'store']);
     Route::put('/{id}', [TacheController::class, 'update']);
     Route::delete('/{id}', [TacheController::class, 'destroy']);
+});
+
 });
