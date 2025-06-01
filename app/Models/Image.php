@@ -9,6 +9,8 @@ class Image extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_image';
+
     protected $fillable = [
         'url',
         'id_chambre',

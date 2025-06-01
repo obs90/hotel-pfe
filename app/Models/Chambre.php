@@ -20,10 +20,10 @@ class Chambre extends Model
     ];
 
     // If each chambre has a default/base tarif (1-to-1 or many-to-1)
-    public function tarif()
-    {
-        return $this->belongsTo(Tarif::class, 'id_Tarif');
-    }
+    // public function tarif()
+    // {
+    //     return $this->belongsTo(Tarif::class, 'id_Tarif');
+    // }
 
     // Many-to-many relationship with Tarif through the pivot model
     public function tarifs()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CustomUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomUserController extends Controller
 {
@@ -60,16 +61,21 @@ class CustomUserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'nom' => 'sometimes|required|string|max:255',
             'prenom' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|unique:custom_users,email,' . $id,
+            'email' => 'sometimes|required|email|unique:custom_users,email,'. $id . ',id_user', 
             'telephone' => 'sometimes|required|string|max:20',
             'password' => 'sometimes|required|string|min:6',
             'typeUser' => 'sometimes|required|in:client,employe',
         ]);
 
-        $user->update($request->all());
+        // Check and hash the password if it's being updated
+        if ($request->has('password')) {
+            $validated['password'] = Hash::make($request->get('password'));
+        }
+
+        $user->update($validated);
 
         return response()->json($user);
     }

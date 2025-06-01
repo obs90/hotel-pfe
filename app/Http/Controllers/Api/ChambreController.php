@@ -11,14 +11,14 @@ class ChambreController extends Controller
     // Get all chambres with tarif and images
     public function index()
     {
-        $chambres = Chambre::with(['tarif', 'images', 'chambreTarifs.tarif'])->get();
+        $chambres = Chambre::with(['images', 'chambreTarifs.tarif'])->get();
         return response()->json($chambres);
     }
 
     // Get a single chambre
     public function show($id)
     {
-        $chambre = Chambre::with(['tarif', 'images', 'chambreTarifs.tarif'])->findOrFail($id);
+        $chambre = Chambre::with(['images', 'chambreTarifs.tarif'])->findOrFail($id);
         return response()->json($chambre);
     }
 

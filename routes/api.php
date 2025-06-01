@@ -32,11 +32,17 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->get('/user', [AuthController::class, 'getUser']);
-Route::post('logout', [AuthController::class, 'logout']);
+
+Route::get('/chambres', [ChambreController::class, 'index']);
+Route::get('chambres/{id}', [ChambreController::class, 'show']);
 
 Route::middleware('auth:api')->group(function () {
-// users
-Route::prefix('users')->group(function () {
+
+    Route::post('logout', [AuthController::class, 'logout']);
+    
+    // users
+
+    Route::prefix('users')->group(function () {
     Route::get('/', [CustomUserController::class, 'index']);
     Route::get('/{id}', [CustomUserController::class, 'show']);
     Route::post('/', [CustomUserController::class, 'store']);
@@ -52,6 +58,8 @@ Route::prefix('clients')->group(function () {
     Route::post('/', [ClientController::class, 'store']);
     Route::put('/{id}', [ClientController::class, 'update']);
     Route::delete('/{id}', [ClientController::class, 'destroy']);
+
+    Route::get('/{id}/reservations', [ClientController::class, 'reservations']); // <--- Get all reservations for a specific client
 });
 
 //  Reservations
@@ -86,8 +94,6 @@ Route::prefix('personnes')->group(function () {
 
 // Chambres
 Route::prefix('chambres')->group(function () {
-    Route::get('/', [ChambreController::class, 'index']);
-    Route::get('/{id}', [ChambreController::class, 'show']);
     Route::post('/', [ChambreController::class, 'store']);
     Route::put('/{id}', [ChambreController::class, 'update']);
     Route::delete('/{id}', [ChambreController::class, 'destroy']);

@@ -66,5 +66,16 @@ class ClientController extends Controller
 
         return response()->json(['message' => 'Client deleted successfully']);
     }
+
+    public function reservations($id)
+    {
+        $client = Client::with('reservations')->find($id);
+
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        return response()->json($client->reservations);
+    }
 }
 
