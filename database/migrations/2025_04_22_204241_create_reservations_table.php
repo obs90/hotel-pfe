@@ -18,8 +18,12 @@ return new class extends Migration
         $table->float('montant_total');
         $table->enum('statut', ['confirmee', 'annulee', 'en attente']);
         $table->enum('mode_paiement', ['especes']);
-        $table->foreignId('id_client')->constrained('clients')->onDelete('cascade');
-        $table->foreignId('id_chambre_tarif')->nullable()->constrained('chambre_tarif')->onDelete('cascade');
+    
+        $table->unsignedBigInteger('id_client');
+        $table->foreign('id_client')->references('id_client')->on('clients')->onDelete('cascade');
+
+        $table->unsignedBigInteger('id_chambre_tarif')->nullable();
+        $table->foreign('id_chambre_tarif')->references('id_chambre_tarif')->on('chambre_tarif')->onDelete('cascade');
         $table->timestamps();
     });
 }

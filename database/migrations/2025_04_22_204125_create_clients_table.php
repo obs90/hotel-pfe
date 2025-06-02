@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('CIN')->unique();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('custom_users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

@@ -17,9 +17,10 @@ return new class extends Migration
         $table->integer('annee');
         $table->date('date_paiement');
         $table->double('primes');
-        $table->double('salaire_net');
         $table->enum('statut', ['En attente', 'Paye']);
-        $table->foreignId('id_employe')->constrained('employes')->onDelete('cascade');
+        // $table->foreignId('id_employe')->constrained('employes')->onDelete('cascade');
+        $table->unsignedBigInteger('id_employe');
+        $table->foreign('id_employe')->references('id_employe')->on('employes')->onDelete('cascade');
         $table->timestamps();
     });
 }

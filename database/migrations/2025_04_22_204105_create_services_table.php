@@ -14,8 +14,9 @@ return new class extends Migration
     Schema::create('services', function (Blueprint $table) {
         $table->id('id_service');
         $table->string('nom');
-        $table->foreignId('id_chef')->nullable()->constrained('employes')->onDelete('cascade');
-        $table->timestamps();
+
+        $table->unsignedBigInteger('id_chef')->nullable();
+         $table->timestamps();
     });
 }
 

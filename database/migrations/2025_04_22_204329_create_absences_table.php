@@ -15,7 +15,9 @@ return new class extends Migration
         $table->id('id_absence');
         $table->date('date');
         $table->boolean('justifie');
-        $table->foreignId('id_employe')->constrained('employes')->onDelete('cascade');
+        // $table->foreignId('id_employe')->constrained('employes')->onDelete('cascade');
+        $table->unsignedBigInteger('id_employe');
+$table->foreign('id_employe')->references('id_employe')->on('employes')->onDelete('cascade');
         $table->timestamps();
     });
 }
